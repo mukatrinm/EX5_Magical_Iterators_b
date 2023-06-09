@@ -42,7 +42,7 @@ bool MagicalContainer::BaseIterator::operator!=(const BaseIterator &other) const
 }
 
 bool MagicalContainer::BaseIterator::operator>(const BaseIterator &other) const {
-    return ptr_magical_containter->_mystical_elements[_index] > other.ptr_magical_containter->_mystical_elements[_index];
+    return getIndex() > other.getIndex();
 }
 
 bool MagicalContainer::BaseIterator::operator<(const BaseIterator &other) const {
