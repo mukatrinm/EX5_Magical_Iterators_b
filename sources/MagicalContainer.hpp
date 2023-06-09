@@ -89,6 +89,8 @@ class MagicalContainer {
 
         PrimeIterator begin();
         PrimeIterator end();
+
+        bool isPrime(int num) const;
     };
 };
 }  // namespace ariel

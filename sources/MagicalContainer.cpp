@@ -1,6 +1,7 @@
 #include "MagicalContainer.hpp"
 
 #include <algorithm>
+#include <cmath>
 #include <vector>
 
 using namespace ariel;
@@ -125,7 +126,13 @@ MagicalContainer::SideCrossIterator MagicalContainer::SideCrossIterator::end() {
  *****************/
 
 MagicalContainer::PrimeIterator &MagicalContainer::PrimeIterator::operator++() {
+    if (*this == end()) {
+        throw std::runtime_error("out of range");
+    }
     setIndex(getIndex() + 1);
+    while (getIndex() < getMagicalContainer()->size() && !isPrime(getMagicalContainer()->_mystical_elements.at(getIndex()))) {
+        setIndex(getIndex() + 1);
+    }
     return *this;
 }
 
@@ -137,4 +144,18 @@ MagicalContainer::PrimeIterator MagicalContainer::PrimeIterator::end() {
     PrimeIterator iter(*getMagicalContainer());
     iter.setIndex(getMagicalContainer()->_mystical_elements.size());
     return iter;
+}
+
+bool MagicalContainer::PrimeIterator::isPrime(int num) const {
+    if (num <= 1) {
+        return false;
+    }
+
+    for (int i = 2; i <= static_cast<int>(std::sqrt(num)); ++i) {
+        if (num % i == 0) {
+            return false;
+        }
+    }
+
+    return true;
 }
