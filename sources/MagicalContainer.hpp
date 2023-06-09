@@ -38,12 +38,12 @@ class MagicalContainer {
 
         virtual ~BaseIterator() = default;
 
-        bool operator==(const BaseIterator &other) const;
-        bool operator!=(const BaseIterator &other) const;
-        bool operator<(const BaseIterator &other) const;
-        bool operator>(const BaseIterator &other) const;
+        virtual bool operator==(const BaseIterator &other) const;
+        virtual bool operator!=(const BaseIterator &other) const;
+        virtual bool operator<(const BaseIterator &other) const;
+        virtual bool operator>(const BaseIterator &other) const;
         virtual BaseIterator &operator++() = 0;
-        int operator*() const;
+        virtual int operator*() const;
     };
 
     class AscendingIterator : public BaseIterator {
@@ -62,15 +62,20 @@ class MagicalContainer {
     };
 
     class SideCrossIterator : public BaseIterator {
+       private:
+        size_t end_index_;
+        bool is_end_turn;
+
        public:
-        SideCrossIterator(MagicalContainer &ptr_magical_containter, size_t index = 0) : BaseIterator(&ptr_magical_containter, index) {}
-        SideCrossIterator(const SideCrossIterator &other) : BaseIterator(other) {}
+        SideCrossIterator(MagicalContainer &ptr_magical_containter, size_t index = 0) : BaseIterator(&ptr_magical_containter, index), end_index_(ptr_magical_containter.size() - 1), is_end_turn{false} {}
+        SideCrossIterator(const SideCrossIterator &other) : BaseIterator(other), end_index_{other.getMagicalContainer()->size() - 1}, is_end_turn{false} {}
         // SideCrossIterator(SideCrossIterator &&other);
         // SideCrossIterator &operator=(SideCrossIterator &&other);
         // SideCrossIterator &operator=(const SideCrossIterator &other);
         ~SideCrossIterator() override = default;
 
         SideCrossIterator &operator++() override;
+        int operator*() const override;
 
         SideCrossIterator begin();
         SideCrossIterator end();

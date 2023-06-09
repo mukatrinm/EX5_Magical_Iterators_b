@@ -42,11 +42,11 @@ bool MagicalContainer::BaseIterator::operator!=(const BaseIterator &other) const
 }
 
 bool MagicalContainer::BaseIterator::operator>(const BaseIterator &other) const {
-    return getIndex() > other.getIndex();
+    return ptr_magical_containter == other.ptr_magical_containter && getIndex() > other.getIndex();
 }
 
 bool MagicalContainer::BaseIterator::operator<(const BaseIterator &other) const {
-    return ptr_magical_containter->_mystical_elements[_index] < other.ptr_magical_containter->_mystical_elements[_index];
+    return ptr_magical_containter == other.ptr_magical_containter && getIndex() < other.getIndex();
 }
 
 MagicalContainer::BaseIterator &MagicalContainer::BaseIterator::operator=(const BaseIterator &other) {
@@ -107,8 +107,42 @@ MagicalContainer::AscendingIterator MagicalContainer::AscendingIterator::end() {
  *********************/
 
 MagicalContainer::SideCrossIterator &MagicalContainer::SideCrossIterator::operator++() {
-    setIndex(getIndex() + 1);
+    if (*this == end()) {
+        throw std::runtime_error("SideCrossIterator out of range.");
+    }
+    if (is_end_turn) {
+        end_index_--;
+    } else {
+        setIndex(getIndex() + 1);
+    }
+
+    // move the index to out of range
+    if (end_index_ < getIndex()) {
+        setIndex(getMagicalContainer()->size());
+    }
+
+    is_end_turn = !is_end_turn;  // alternate the value
+
     return *this;
+}
+
+int MagicalContainer::SideCrossIterator::operator*() const {
+    if (getMagicalContainer() == nullptr) {
+        throw std::runtime_error("Container is null.");
+    }
+
+    auto ptr_magical_containter = getMagicalContainer();
+    size_t container_size = ptr_magical_containter->_mystical_elements.size();
+
+    if (getIndex() >= container_size || end_index_ < 0) {
+        throw std::out_of_range("Index is out of range.");
+    }
+
+    if (is_end_turn) {
+        return ptr_magical_containter->_mystical_elements[end_index_];
+    }
+
+    return ptr_magical_containter->_mystical_elements[getIndex()];
 }
 
 MagicalContainer::SideCrossIterator MagicalContainer::SideCrossIterator::begin() {
@@ -118,6 +152,7 @@ MagicalContainer::SideCrossIterator MagicalContainer::SideCrossIterator::begin()
 MagicalContainer::SideCrossIterator MagicalContainer::SideCrossIterator::end() {
     SideCrossIterator iter(*getMagicalContainer());
     iter.setIndex(getMagicalContainer()->_mystical_elements.size());
+    iter.end_index_ = 0;
     return iter;
 }
 
