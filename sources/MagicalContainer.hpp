@@ -17,30 +17,23 @@ class MagicalContainer {
     size_t size() const;
 
     class BaseIterator {
-       protected:
+       private:
         MagicalContainer *ptr_magical_containter = nullptr;
         size_t _index = 0;
+
+       protected:
+        MagicalContainer *getMagicalContainer() const { return ptr_magical_containter; }
+        size_t getIndex() const { return _index; }
+        void setIndex(size_t new_index) { _index = new_index; }
 
        public:
         BaseIterator(MagicalContainer *container, size_t index = 0) : ptr_magical_containter(container), _index(index){};
         BaseIterator(const BaseIterator &other)
             : ptr_magical_containter(other.ptr_magical_containter), _index(other._index) {}
 
-        BaseIterator(BaseIterator &&other)
-            : ptr_magical_containter(other.ptr_magical_containter), _index(other._index) {
-            other.ptr_magical_containter = nullptr;
-            other._index = 0;
-        }
-
-        BaseIterator &operator=(BaseIterator &&other) noexcept {
-            if (this != &other) {
-                ptr_magical_containter = other.ptr_magical_containter;
-                _index = other._index;
-                other.ptr_magical_containter = nullptr;
-                other._index = 0;
-            }
-            return *this;
-        }
+        BaseIterator(BaseIterator &&other) = delete;
+        BaseIterator &operator=(BaseIterator &&other) = delete;
+        BaseIterator &operator=(const BaseIterator &other);
 
         virtual ~BaseIterator() = default;
 
@@ -48,7 +41,6 @@ class MagicalContainer {
         bool operator!=(const BaseIterator &other) const;
         bool operator<(const BaseIterator &other) const;
         bool operator>(const BaseIterator &other) const;
-        BaseIterator &operator=(const BaseIterator &other);
         int operator*() const;
     };
 
@@ -56,6 +48,11 @@ class MagicalContainer {
        public:
         AscendingIterator(MagicalContainer &ptr_magical_containter, size_t index = 0) : BaseIterator(&ptr_magical_containter, index) {}
         AscendingIterator(const AscendingIterator &other) : BaseIterator(other) {}
+        AscendingIterator(AscendingIterator &&other) = delete;
+        AscendingIterator &operator=(AscendingIterator &&other) = delete;
+        AscendingIterator &operator=(const AscendingIterator &other);
+        ~AscendingIterator() override = default;
+
         AscendingIterator &operator++();
 
         AscendingIterator begin();
@@ -66,6 +63,10 @@ class MagicalContainer {
        public:
         SideCrossIterator(MagicalContainer &ptr_magical_containter, size_t index = 0) : BaseIterator(&ptr_magical_containter, index) {}
         SideCrossIterator(const SideCrossIterator &other) : BaseIterator(other) {}
+        SideCrossIterator(SideCrossIterator &&other) = delete;
+        SideCrossIterator &operator=(SideCrossIterator &&other) = delete;
+        SideCrossIterator &operator=(const SideCrossIterator &other);
+        ~SideCrossIterator() override = default;
 
         SideCrossIterator &operator++();
 
@@ -77,6 +78,10 @@ class MagicalContainer {
        public:
         PrimeIterator(MagicalContainer &ptr_magical_containter, size_t index = 0) : BaseIterator(&ptr_magical_containter, index) {}
         PrimeIterator(const PrimeIterator &other) : BaseIterator(other) {}
+        PrimeIterator(PrimeIterator &&other) = delete;
+        PrimeIterator &operator=(PrimeIterator &&other) = delete;
+        PrimeIterator &operator=(const PrimeIterator &other);
+        ~PrimeIterator() override = default;
 
         PrimeIterator &operator++();
 

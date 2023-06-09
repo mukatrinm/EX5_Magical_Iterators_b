@@ -72,17 +72,17 @@ int MagicalContainer::BaseIterator::operator*() const {
  **********************/
 
 MagicalContainer::AscendingIterator &MagicalContainer::AscendingIterator::operator++() {
-    ++_index;
+    setIndex(getIndex() + 1);
     return *this;
 }
 
 MagicalContainer::AscendingIterator MagicalContainer::AscendingIterator::begin() {
-    return AscendingIterator(*ptr_magical_containter);
+    return AscendingIterator(*getMagicalContainer());
 }
 
 MagicalContainer::AscendingIterator MagicalContainer::AscendingIterator::end() {
-    AscendingIterator iter(*ptr_magical_containter);
-    iter._index = ptr_magical_containter->_mystical_elements.size();
+    AscendingIterator iter(*getMagicalContainer());
+    iter.setIndex(getMagicalContainer()->_mystical_elements.size());
     return iter;
 }
 
@@ -91,17 +91,17 @@ MagicalContainer::AscendingIterator MagicalContainer::AscendingIterator::end() {
  *********************/
 
 MagicalContainer::SideCrossIterator &MagicalContainer::SideCrossIterator::operator++() {
-    ++_index;
+    setIndex(getIndex() + 1);
     return *this;
 }
 
 MagicalContainer::SideCrossIterator MagicalContainer::SideCrossIterator::begin() {
-    return SideCrossIterator(*ptr_magical_containter);
+    return SideCrossIterator(*getMagicalContainer());
 }
 
 MagicalContainer::SideCrossIterator MagicalContainer::SideCrossIterator::end() {
-    SideCrossIterator iter(*ptr_magical_containter);
-    iter._index = ptr_magical_containter->_mystical_elements.size();
+    SideCrossIterator iter(*getMagicalContainer());
+    iter.setIndex(getMagicalContainer()->_mystical_elements.size());
     return iter;
 }
 
@@ -110,16 +110,16 @@ MagicalContainer::SideCrossIterator MagicalContainer::SideCrossIterator::end() {
  *****************/
 
 MagicalContainer::PrimeIterator &MagicalContainer::PrimeIterator::operator++() {
-    ++_index;
+    setIndex(getIndex() + 1);
     return *this;
 }
 
 MagicalContainer::PrimeIterator MagicalContainer::PrimeIterator::begin() {
-    return PrimeIterator(*ptr_magical_containter);
+    return PrimeIterator(*getMagicalContainer());
 }
 
 MagicalContainer::PrimeIterator MagicalContainer::PrimeIterator::end() {
-    PrimeIterator iter(*ptr_magical_containter);
-    iter._index = ptr_magical_containter->_mystical_elements.size();
+    PrimeIterator iter(*getMagicalContainer());
+    iter.setIndex(getMagicalContainer()->_mystical_elements.size());
     return iter;
 }
