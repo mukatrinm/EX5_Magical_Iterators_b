@@ -11,6 +11,7 @@ using namespace ariel;
 
 void MagicalContainer::addElement(int element) {
     _mystical_elements.push_back(element);
+    std::sort(_mystical_elements.begin(), _mystical_elements.end());
 }
 
 void MagicalContainer::removeElement(int element) {
@@ -70,6 +71,20 @@ int MagicalContainer::BaseIterator::operator*() const {
 /*********************
  * AscendingIterator *
  **********************/
+
+// MagicalContainer::AscendingIterator::AscendingIterator(AscendingIterator &&other)
+//     : BaseIterator(other.getMagicalContainer(), other.getIndex()) {
+// }
+
+// MagicalContainer::AscendingIterator &MagicalContainer::AscendingIterator::operator=(AscendingIterator &&other) {
+//     if (this != &other) {
+//         setMagicalContainer(other.getMagicalContainer());
+//         setIndex(other.getIndex());
+//         // other.ptr_magical_containter = nullptr;
+//         // other._index = 0;
+//     }
+//     return *this;
+// }
 
 MagicalContainer::AscendingIterator &MagicalContainer::AscendingIterator::operator++() {
     setIndex(getIndex() + 1);
