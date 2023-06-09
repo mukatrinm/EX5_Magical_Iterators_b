@@ -24,10 +24,10 @@ class MagicalContainer {
        protected:
         MagicalContainer *getMagicalContainer() const { return ptr_magical_containter; }
         void setMagicalContainer(MagicalContainer *new_ptr_magical_containter) { ptr_magical_containter = new_ptr_magical_containter; }
-        size_t getIndex() const { return _index; }
         void setIndex(size_t new_index) { _index = new_index; }
 
        public:
+        size_t getIndex() const { return _index; }  // TODO:move back to protected
         BaseIterator(MagicalContainer *container, size_t index = 0) : ptr_magical_containter(container), _index(index){};
         BaseIterator(const BaseIterator &other)
             : ptr_magical_containter(other.ptr_magical_containter), _index(other._index) {}
@@ -82,15 +82,20 @@ class MagicalContainer {
     };
 
     class PrimeIterator : public BaseIterator {
+       private:
+        std::size_t last_prime_index_;
+        bool first_time_;
+
        public:
-        PrimeIterator(MagicalContainer &ptr_magical_containter, size_t index = 0) : BaseIterator(&ptr_magical_containter, index) {}
-        PrimeIterator(const PrimeIterator &other) : BaseIterator(other) {}
+        PrimeIterator(MagicalContainer &ptr_magical_containter, std::size_t index = 0);
+        PrimeIterator(const PrimeIterator &other) : BaseIterator(other), first_time_{true} {}
         // PrimeIterator(PrimeIterator &&other);
         // PrimeIterator &operator=(PrimeIterator &&other);
         // PrimeIterator &operator=(const PrimeIterator &other);
         ~PrimeIterator() override = default;
 
         PrimeIterator &operator++() override;
+        int operator*();
 
         PrimeIterator begin();
         PrimeIterator end();
