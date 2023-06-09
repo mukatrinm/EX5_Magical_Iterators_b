@@ -34,9 +34,9 @@ size_t MagicalContainer::size() const {
  *******************/
 
 bool MagicalContainer::BaseIterator::operator==(const BaseIterator &other) const {
-    // std::cout << "index: " << _index << std::endl;
-    // std::cout << "other.index: " << other._index << "\n"
-    //           << std::endl;
+    if (ptr_magical_containter != other.ptr_magical_containter) {
+        throw std::runtime_error("Comparing different conrainers.");
+    }
 
     return ptr_magical_containter == other.ptr_magical_containter && _index == other._index;
 }
@@ -54,6 +54,10 @@ bool MagicalContainer::BaseIterator::operator<(const BaseIterator &other) const 
 }
 
 MagicalContainer::BaseIterator &MagicalContainer::BaseIterator::operator=(const BaseIterator &other) {
+    if (ptr_magical_containter != other.ptr_magical_containter) {
+        throw std::runtime_error("iterators have different conrainers.");
+    }
+
     if (this != &other) {
         ptr_magical_containter = other.ptr_magical_containter;
         _index = other._index;
@@ -92,6 +96,9 @@ int MagicalContainer::BaseIterator::operator*() const {
 // }
 
 MagicalContainer::AscendingIterator &MagicalContainer::AscendingIterator::operator++() {
+    if (*this == end()) {
+        throw std::runtime_error("out of range.");
+    }
     setIndex(getIndex() + 1);
     return *this;
 }
@@ -194,6 +201,11 @@ MagicalContainer::PrimeIterator &MagicalContainer::PrimeIterator::operator++() {
     if (*this == end()) {
         throw std::runtime_error("out of range");
     }
+
+    if (getIndex() > last_prime_index_) {
+        throw std::runtime_error("out of range");
+    }
+
     if (getIndex() < getMagicalContainer()->size()) {
         setIndex(getIndex() + 1);
     }
