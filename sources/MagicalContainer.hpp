@@ -25,9 +25,9 @@ class MagicalContainer {
         MagicalContainer *getMagicalContainer() const { return ptr_magical_containter; }
         void setMagicalContainer(MagicalContainer *new_ptr_magical_containter) { ptr_magical_containter = new_ptr_magical_containter; }
         void setIndex(size_t new_index) { _index = new_index; }
+        size_t getIndex() const { return _index; }
 
        public:
-        size_t getIndex() const { return _index; }  // TODO:move back to protected
         BaseIterator(MagicalContainer *container, size_t index = 0) : ptr_magical_containter(container), _index(index){};
         BaseIterator(const BaseIterator &other)
             : ptr_magical_containter(other.ptr_magical_containter), _index(other._index) {}
@@ -50,9 +50,6 @@ class MagicalContainer {
        public:
         AscendingIterator(MagicalContainer &ptr_magical_containter, size_t index = 0) : BaseIterator(&ptr_magical_containter, index) {}
         AscendingIterator(const AscendingIterator &other) : BaseIterator(other) {}
-        // AscendingIterator(AscendingIterator &&other) noexcept;
-        // AscendingIterator &operator=(AscendingIterator &&other);
-        // AscendingIterator &operator=(const AscendingIterator &other);
         ~AscendingIterator() override = default;
 
         AscendingIterator &operator++() override;
@@ -69,9 +66,6 @@ class MagicalContainer {
        public:
         SideCrossIterator(MagicalContainer &ptr_magical_containter, size_t index = 0) : BaseIterator(&ptr_magical_containter, index), end_index_(ptr_magical_containter.size() - 1), is_end_turn{false} {}
         SideCrossIterator(const SideCrossIterator &other) : BaseIterator(other), end_index_{other.getMagicalContainer()->size() - 1}, is_end_turn{false} {}
-        // SideCrossIterator(SideCrossIterator &&other);
-        // SideCrossIterator &operator=(SideCrossIterator &&other);
-        // SideCrossIterator &operator=(const SideCrossIterator &other);
         ~SideCrossIterator() override = default;
 
         SideCrossIterator &operator++() override;
@@ -88,10 +82,6 @@ class MagicalContainer {
 
        public:
         PrimeIterator(MagicalContainer &ptr_magical_containter, std::size_t index = 0);
-        PrimeIterator(const PrimeIterator &other) : BaseIterator(other), first_time_{true} {}
-        // PrimeIterator(PrimeIterator &&other);
-        // PrimeIterator &operator=(PrimeIterator &&other);
-        // PrimeIterator &operator=(const PrimeIterator &other);
         ~PrimeIterator() override = default;
 
         PrimeIterator &operator++() override;

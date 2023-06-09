@@ -198,8 +198,6 @@ MagicalContainer::PrimeIterator::PrimeIterator(MagicalContainer &ptr_magical_con
     if (last_prime_index_ == 0) {
         setIndex(0);
     }
-
-    // std::cout << "first_prime_idx: " << first_prime_idx << std::endl;
 }
 
 MagicalContainer::PrimeIterator &MagicalContainer::PrimeIterator::operator++() {
@@ -219,16 +217,7 @@ MagicalContainer::PrimeIterator &MagicalContainer::PrimeIterator::operator++() {
         setIndex(getIndex() + 1);
     }
 
-    // std::cout << "getIndex(): " << getIndex() << std::endl;
-    // std::cout << "last_prime_index_(): " << getIndex() << "\n--------------------" << std::endl;
-    // check if it's the last prime
-    // if (last_prime_index_ == 0) {
-    //     setIndex(1);
-    // }
-
     if (getIndex() > last_prime_index_) {
-        // std::cout << "last_prime_index_: " << last_prime_index_ << std::endl;
-        // std::cout << "if >=  last_prime_index_ reached" << std::endl;
         setIndex(last_prime_index_ + 1);
     }
 
@@ -258,20 +247,6 @@ int MagicalContainer::PrimeIterator::operator*() {
 
 MagicalContainer::PrimeIterator MagicalContainer::PrimeIterator::begin() {
     PrimeIterator iter(*getMagicalContainer());
-    // size_t first_prime_idx = 0;
-    // while (first_prime_idx < getMagicalContainer()->size()) {
-    //     if (isPrime(iter.getMagicalContainer()->_mystical_elements.at(first_prime_idx))) {
-    //         break;
-    //     }
-    //     first_prime_idx++;
-    // }
-    // if (first_prime_idx >= getMagicalContainer()->size()) {
-    //     throw std::runtime_error("The container has no prime number.");
-    // }
-
-    // // std::cout << "first_prime_idx: " << first_prime_idx << std::endl;
-
-    // iter.setIndex(first_prime_idx);
     return iter;
 }
 
