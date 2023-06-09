@@ -174,6 +174,14 @@ MagicalContainer::SideCrossIterator MagicalContainer::SideCrossIterator::end() {
 MagicalContainer::PrimeIterator::PrimeIterator(MagicalContainer &ptr_magical_containter, std::size_t index) : BaseIterator(&ptr_magical_containter, index),
                                                                                                               last_prime_index_{getMagicalContainer()->_mystical_elements.size()},
                                                                                                               first_time_{true} {
+    // index_ is the index of the first prime number in the container
+    while (getIndex() < getMagicalContainer()->size()) {
+        if (isPrime(getMagicalContainer()->_mystical_elements.at(getIndex()))) {
+            break;
+        }
+        setIndex(getIndex() + 1);
+    }
+
     // last_prime_index_ is the index of the last prime number in the container
     if (getMagicalContainer()->size() != 0) {
         last_prime_index_ = getMagicalContainer()->size() - 1;
@@ -186,12 +194,9 @@ MagicalContainer::PrimeIterator::PrimeIterator(MagicalContainer &ptr_magical_con
         }
     }
 
-    // index_ is the index of the first prime number in the container
-    while (getIndex() < getMagicalContainer()->size()) {
-        if (isPrime(getMagicalContainer()->_mystical_elements.at(getIndex()))) {
-            break;
-        }
-        setIndex(getIndex() + 1);
+    // there are no primes
+    if (last_prime_index_ == 0) {
+        setIndex(0);
     }
 
     // std::cout << "first_prime_idx: " << first_prime_idx << std::endl;
